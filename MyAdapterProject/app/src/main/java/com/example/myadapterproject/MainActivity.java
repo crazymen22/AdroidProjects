@@ -37,7 +37,13 @@ public class MainActivity extends AppCompatActivity {
         TaskAdapter stateAdapter = new TaskAdapter(this, R.layout.list_item, tasks);
         // устанавливаем адаптер
         countriesList.setAdapter(stateAdapter);
-        // слушатель выбора в списке
+
+
+
+        initEvents();
+    }
+
+    private void initEvents() {
         AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -45,33 +51,15 @@ public class MainActivity extends AppCompatActivity {
                 stateAdapter.remove(tasks.get(position));
             }
         };
+
         countriesList.setOnItemClickListener(itemListener);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        TaskAdapter stateAdapter = new TaskAdapter(this, R.layout.list_item, tasks);
-//        int id = item.getItemId();
-//        switch(id){
-//            case R.id.ukraine :
-//                stateAdapter.add(new State("Україна", "Київ", R.drawable.cat));
-//                return true;
-//            case R.id.poland:
-//                stateAdapter.add(new State("Польща", "Варшава", R.drawable.panda));
-//                return true;
-//            case R.id.canada:
-//                stateAdapter.add(new State("Канада", "Оттава", R.drawable.cat));
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {

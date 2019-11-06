@@ -44,6 +44,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         timeView.setText(time);
         priorityView.setText(String.valueOf(task.getPriority()));
 
+
         return view;
     }
 }

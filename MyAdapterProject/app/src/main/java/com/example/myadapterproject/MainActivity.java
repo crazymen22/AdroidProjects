@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
@@ -90,5 +91,17 @@ public class MainActivity extends AppCompatActivity {
         tasks.add(new Task ("Завдання3", 3, 3, 3, 3, 3, 3, R.drawable.cat));
         tasks.add(new Task ("Завдання4", 4, 4, 4, 4, 4, 4, R.drawable.cat));
         tasks.add(new Task ("Завдання5", 5, 5, 5, 5, 5, 5, R.drawable.cat));
+    }
+
+    public void addButtonClick(View view) {
+        Intent intent = new Intent(this, NewTaskActivity.class);
+
+        startActivity(intent);
+    }
+
+    public void editButtonClick(View view) {
+    }
+
+    public void deleteButtonClick(View view) {
     }
 }

@@ -1,27 +1,22 @@
-package com.example.myadapterproject;
+package com.example.personlistproject;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<Task> tasks = new ArrayList();
+    private List<Person> persons = new ArrayList();
 
     ListView countriesList;
 
@@ -35,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         // получаем элемент ListView
         countriesList = findViewById(R.id.countriesList);
         // создаем адаптер
-        TaskAdapter stateAdapter = new TaskAdapter(this, R.layout.list_item, tasks);
+        PersonAdapter stateAdapter = new PersonAdapter(this, R.layout.list_item, persons);
         // устанавливаем адаптер
         countriesList.setAdapter(stateAdapter);
 
@@ -49,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 TaskAdapter stateAdapter = (TaskAdapter) countriesList.getAdapter();
-                stateAdapter.remove(tasks.get(position));
+                stateAdapter.remove(persons.get(position));
             }
         };
 
@@ -64,33 +59,29 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelableArrayList("tasks", (ArrayList<? extends Parcelable>) tasks);
+        outState.putParcelableArrayList("persons", (ArrayList<? extends Parcelable>) persons);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        tasks = savedInstanceState.getParcelableArrayList("tasks");
-        TaskAdapter stateAdapter = new TaskAdapter(this, R.layout.list_item, tasks);
+        persons = savedInstanceState.getParcelableArrayList("persons");
+        PersonAdapter stateAdapter = new PersonAdapter(this, R.layout.list_item, persons);
         countriesList.setAdapter(stateAdapter);
 
         AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 TaskAdapter stateAdapter = (TaskAdapter) countriesList.getAdapter();
-                stateAdapter.remove(tasks.get(position));
+                stateAdapter.remove(persons.get(position));
             }
         };
         countriesList.setOnItemClickListener(itemListener);
     }
 
     private void setInitialData(){
-        tasks.add(new Task ("Завдання1", 1, 1, 1, 1, 1, 1, R.drawable.cat));
-        tasks.add(new Task ("Завдання2", 2, 2, 2, 2, 2, 2, R.drawable.cat));
-        tasks.add(new Task ("Завдання3", 3, 3, 3, 3, 3, 3, R.drawable.cat));
-        tasks.add(new Task ("Завдання4", 4, 4, 4, 4, 4, 4, R.drawable.cat));
-        tasks.add(new Task ("Завдання5", 5, 5, 5, 5, 5, 5, R.drawable.cat));
+        persons.add(new Person ("Завдання1", 1, 1, 1, 1, 1, 1, R.drawable.cat));
     }
 
     public void addButtonClick(View view) {

@@ -1,4 +1,4 @@
-package com.example.myadapterproject;
+package com.example.personlistproject;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.example.myadapterproject;
+package com.example.personlistproject;
 
 import android.os.Parcel;
 import android.os.Parcelable;

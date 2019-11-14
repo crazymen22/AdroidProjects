@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                TaskAdapter stateAdapter = (TaskAdapter) countriesList.getAdapter();
+                PersonAdapter stateAdapter = (PersonAdapter) countriesList.getAdapter();
                 stateAdapter.remove(persons.get(position));
             }
         };
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                TaskAdapter stateAdapter = (TaskAdapter) countriesList.getAdapter();
+                PersonAdapter stateAdapter = (PersonAdapter) countriesList.getAdapter();
                 stateAdapter.remove(persons.get(position));
             }
         };

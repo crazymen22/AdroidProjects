@@ -49,6 +49,7 @@ public class PersonAdapter extends ArrayAdapter<Person> {
             try {
                 fIn = getContext().openFileInput(person.getImageName());
                 bitmap = BitmapFactory.decodeStream(fIn);
+                imageView.setImageBitmap(bitmap);
                 fIn.close();
             }
             catch (FileNotFoundException e) {
@@ -57,6 +58,9 @@ public class PersonAdapter extends ArrayAdapter<Person> {
             catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        else {
+
         }
 
         return view;

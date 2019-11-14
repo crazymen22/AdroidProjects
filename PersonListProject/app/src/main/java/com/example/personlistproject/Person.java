@@ -1,7 +1,10 @@
 package com.example.personlistproject;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.RequiresApi;
 
 import java.util.Calendar;
 
@@ -10,18 +13,21 @@ public class Person implements Parcelable {
     private String surName;
     private Calendar date;
     private String imageName;
+    private boolean gender;
 
-    public Person(String name, String surName, Calendar date) {
+    public Person(String name, String surName, Calendar date, boolean gender) {
         this.name = name;
         this.surName = surName;
         this.date = date;
+        this.gender = gender;
     }
 
-    public Person(String name, String surName, Calendar date, String imageName) {
+    public Person(String name, String surName, Calendar date, String imageName, boolean gender) {
         this.name = name;
         this.surName = surName;
         this.date = date;
         this.imageName = imageName;
+        this.gender = gender;
     }
 
     public String getName() {
@@ -56,14 +62,24 @@ public class Person implements Parcelable {
         this.imageName = imageName;
     }
 
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+
     public static final Creator<Person> CREATOR = new Creator<Person>() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
         @Override
         public Person createFromParcel(Parcel source) {
             String name = source.readString();
             String surName = source.readString();
             Calendar date = (Calendar) source.readValue(Calendar.class.getClassLoader());
             String imageName = source.readString();
-            return new Person(name, surName, date, imageName);
+            boolean gender = source.readBoolean();
+            return new Person(name, surName, date, imageName, gender);
         }
 
         @Override
@@ -77,11 +93,13 @@ public class Person implements Parcelable {
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(name);
         parcel.writeString(surName);
         parcel.writeValue(date);
         parcel.writeString(imageName);
+        parcel.writeBoolean(gender);
     }
 }

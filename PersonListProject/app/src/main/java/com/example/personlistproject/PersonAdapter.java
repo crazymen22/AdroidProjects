@@ -14,7 +14,9 @@ import android.widget.TextView;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class PersonAdapter extends ArrayAdapter<Person> {
 
@@ -42,6 +44,9 @@ public class PersonAdapter extends ArrayAdapter<Person> {
         nameView.setText(person.getName());
         surNameView.setText(person.getSurName());
 
+        Calendar date = person.getDate();
+        String strDate = date.get(Calendar.DAY_OF_MONTH) + "." + date.get(Calendar.MONTH) + "." + date.get(Calendar.YEAR);
+        dateView.setText(strDate);
 
         if(!person.getImageName().equals("")) {
             Bitmap bitmap = null;
@@ -60,7 +65,10 @@ public class PersonAdapter extends ArrayAdapter<Person> {
             }
         }
         else {
-
+            if(person.isGender())
+                imageView.setImageResource(R.drawable.boy);
+            else
+                imageView.setImageResource(R.drawable.girl);
         }
 
         return view;

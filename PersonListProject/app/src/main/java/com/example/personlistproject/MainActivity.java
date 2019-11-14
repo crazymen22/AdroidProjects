@@ -12,29 +12,24 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private List<Person> persons = new ArrayList();
 
-    ListView countriesList;
+    ListView personsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // начальная инициализация списка
         setInitialData();
-        // получаем элемент ListView
-        countriesList = findViewById(R.id.countriesList);
-        // создаем адаптер
+        personsList = findViewById(R.id.countriesList);
         PersonAdapter stateAdapter = new PersonAdapter(this, R.layout.list_item, persons);
-        // устанавливаем адаптер
-        countriesList.setAdapter(stateAdapter);
-
-
+        personsList.setAdapter(stateAdapter);
 
         initEvents();
     }
@@ -43,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
         AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                PersonAdapter stateAdapter = (PersonAdapter) countriesList.getAdapter();
+                PersonAdapter stateAdapter = (PersonAdapter) personsList.getAdapter();
                 stateAdapter.remove(persons.get(position));
             }
         };
 
-        countriesList.setOnItemClickListener(itemListener);
+        personsList.setOnItemClickListener(itemListener);
     }
 
     @Override
@@ -68,20 +63,24 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         persons = savedInstanceState.getParcelableArrayList("persons");
         PersonAdapter stateAdapter = new PersonAdapter(this, R.layout.list_item, persons);
-        countriesList.setAdapter(stateAdapter);
+        personsList.setAdapter(stateAdapter);
 
         AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                PersonAdapter stateAdapter = (PersonAdapter) countriesList.getAdapter();
+                PersonAdapter stateAdapter = (PersonAdapter) personsList.getAdapter();
                 stateAdapter.remove(persons.get(position));
             }
         };
-        countriesList.setOnItemClickListener(itemListener);
+        personsList.setOnItemClickListener(itemListener);
     }
 
     private void setInitialData(){
-        persons.add(new Person ("Завдання1", 1, 1, 1, 1, 1, 1, R.drawable.cat));
+        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 11, 14), true));
+        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 11, 13), false));
+        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 11, 10), true));
+        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 9, 4), false));
+        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2016, 3, 1), true));
     }
 
     public void addButtonClick(View view) {

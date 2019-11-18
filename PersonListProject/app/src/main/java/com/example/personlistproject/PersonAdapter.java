@@ -48,7 +48,7 @@ public class PersonAdapter extends ArrayAdapter<Person> {
         String strDate = date.get(Calendar.DAY_OF_MONTH) + "." + date.get(Calendar.MONTH) + "." + date.get(Calendar.YEAR);
         dateView.setText(strDate);
 
-        if(!person.getImageName().equals("")) {
+        if(person.getImageName() != null) {
             Bitmap bitmap = null;
             FileInputStream fIn = null;
             try {

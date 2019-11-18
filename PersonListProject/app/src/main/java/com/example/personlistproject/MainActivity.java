@@ -18,6 +18,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private List<Person> persons = new ArrayList();
+    private DatabaseAdapter databaseAdapter;
 
     ListView personsList;
 
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        databaseAdapter = new DatabaseAdapter(this);
 
         setInitialData();
         personsList = findViewById(R.id.countriesList);
@@ -76,11 +79,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setInitialData(){
-        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 11, 14), true));
-        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 11, 13), false));
-        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 11, 10), true));
-        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 9, 4), false));
-        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2016, 3, 1), true));
+//        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 11, 14), true));
+//        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 11, 13), false));
+//        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 11, 10), true));
+//        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2019, 9, 4), false));
+//        persons.add(new Person("Name1", "SurName1", new GregorianCalendar(2016, 3, 1), true));
+        databaseAdapter.open();
+        persons.addAll(databaseAdapter.getPersons());
+        databaseAdapter.close();
     }
 
     public void addButtonClick(View view) {

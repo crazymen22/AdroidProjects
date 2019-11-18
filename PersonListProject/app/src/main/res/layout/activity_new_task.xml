@@ -46,6 +46,8 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:src="@android:drawable/arrow_up_float"
+                android:onClick="showImageSelectDialog"
                 android:id="@+id/imagePerson"
                 android:layout_marginRight="16dp"
                 android:layout_marginEnd="16dp"
@@ -73,7 +75,7 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:onClick="addTaskButtonClick"
+            android:onClick="addPersonButtonClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Добавити"/>

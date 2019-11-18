@@ -9,11 +9,29 @@ import androidx.annotation.RequiresApi;
 import java.util.Calendar;
 
 public class Person implements Parcelable {
+    private int id;
     private String name;
     private String surName;
     private Calendar date;
     private String imageName;
     private boolean gender;
+
+    public Person(int id, String name, String surName, Calendar date, boolean gender) {
+        this.id = id;
+        this.name = name;
+        this.surName = surName;
+        this.date = date;
+        this.gender = gender;
+    }
+
+    public Person(int id, String name, String surName, Calendar date, String imageName, boolean gender) {
+        this.id = id;
+        this.name = name;
+        this.surName = surName;
+        this.date = date;
+        this.imageName = imageName;
+        this.gender = gender;
+    }
 
     public Person(String name, String surName, Calendar date, boolean gender) {
         this.name = name;
@@ -70,16 +88,25 @@ public class Person implements Parcelable {
         this.gender = gender;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public static final Creator<Person> CREATOR = new Creator<Person>() {
         @RequiresApi(api = Build.VERSION_CODES.Q)
         @Override
         public Person createFromParcel(Parcel source) {
+            int id = source.readInt();
             String name = source.readString();
             String surName = source.readString();
             Calendar date = (Calendar) source.readValue(Calendar.class.getClassLoader());
             String imageName = source.readString();
             boolean gender = source.readBoolean();
-            return new Person(name, surName, date, imageName, gender);
+            return new Person(id, name, surName, date, imageName, gender);
         }
 
         @Override
@@ -96,10 +123,17 @@ public class Person implements Parcelable {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
         parcel.writeString(name);
         parcel.writeString(surName);
         parcel.writeValue(date);
         parcel.writeString(imageName);
         parcel.writeBoolean(gender);
+    }
+
+    @Override
+    public String toString() {
+        return "id -" + this.id + " name - " + this.name + " surname - " + this.surName
+                + " date - " + this.date.toString() + " gender - " + this.gender + " imageName - " + this.imageName;
     }
 }

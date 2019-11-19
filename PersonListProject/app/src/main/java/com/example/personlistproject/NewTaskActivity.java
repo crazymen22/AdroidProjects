@@ -76,25 +76,23 @@ public class NewTaskActivity extends AppCompatActivity {
             case 0: {
                 try {
                     Bitmap bitmap = (Bitmap) imageReturnedIntent.getExtras().get("data");
-                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
 
                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-                    File destination = new File(Environment.getExternalStorageDirectory() + "/" +
-                            getString(R.string.app_name), "IMG_" + timeStamp + ".jpg");
-                    FileOutputStream fo;
+                    String fileName = "IMAGE" + timeStamp + ".png";
+
+                    FileOutputStream fOut = null;
                     try {
-                        destination.createNewFile();
-                        fo = new FileOutputStream(destination);
-                        fo.write(bytes.toByteArray());
-                        fo.close();
+                        fOut = openFileOutput(fileName, MODE_PRIVATE);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                        fOut.flush();
+                        fOut.close();
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-                    imagePath = destination.getAbsolutePath();
+                    imagePath = fileName;
                     imageView.setImageBitmap(bitmap);
 
                 } catch (Exception e) {

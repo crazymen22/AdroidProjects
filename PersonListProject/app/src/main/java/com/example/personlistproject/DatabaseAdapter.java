@@ -65,12 +65,12 @@ public class DatabaseAdapter {
             while (cursor.moveToNext());
         }
         cursor.close();
-//        for (Person person:
-//             persons) {
-//            this.open();
-//            this.delete(person.getId());
-//            this.close();
-//        }
+        for (Person person:
+             persons) {
+            this.open();
+            this.delete(person.getId());
+            this.close();
+        }
         return  persons;
     }
 

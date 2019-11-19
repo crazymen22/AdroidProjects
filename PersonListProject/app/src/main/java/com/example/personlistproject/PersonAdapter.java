@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,6 +31,7 @@ public class PersonAdapter extends ArrayAdapter<Person> {
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
     }
+
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = inflater.inflate(this.layout, parent, false);
@@ -48,24 +50,20 @@ public class PersonAdapter extends ArrayAdapter<Person> {
         String strDate = date.get(Calendar.DAY_OF_MONTH) + "." + date.get(Calendar.MONTH) + "." + date.get(Calendar.YEAR);
         dateView.setText(strDate);
 
-        if(person.getImageName() != null) {
-            Bitmap bitmap = null;
-            FileInputStream fIn = null;
+        if (person.getImageName() != null) {
             try {
-                fIn = getContext().openFileInput(person.getImageName());
-                bitmap = BitmapFactory.decodeStream(fIn);
+                Bitmap bitmap = null;
+                File f = new File(person.getImageName());
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+                bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
                 imageView.setImageBitmap(bitmap);
-                fIn.close();
-            }
-            catch (FileNotFoundException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            if(person.isGender())
+        } else {
+            if (person.isGender())
                 imageView.setImageResource(R.drawable.boy);
             else
                 imageView.setImageResource(R.drawable.girl);

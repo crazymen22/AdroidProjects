@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -22,17 +24,54 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 public class NewTaskActivity extends AppCompatActivity {
     String imagePath;
+    List<String> genderList;
+    Person per;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
+
+        genderList = new ArrayList<>();
+        genderList = Arrays.asList("Жінка", "Чоловік");
+
+        Spinner genderSpinner = findViewById(R.id.genderSpinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, genderList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        genderSpinner.setAdapter(adapter);
+
+        Bundle arguments = getIntent().getExtras();
+        if(arguments != null) {
+            per = arguments.getParcelable(Person.class.getSimpleName());
+
+            EditText nameText = findViewById(R.id.nameText);
+            EditText surNameText = findViewById(R.id.surNameText);
+            DatePicker datePicker = findViewById(R.id.datePicker);
+
+            String name = per.getName();
+            String surName = per.getSurName();
+            Calendar date = per.getDate();
+            boolean gender = per.isGender();
+
+            nameText.setText(name);
+            surNameText.setText(surName);
+            datePicker.updateDate(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+            if(gender) {
+                genderSpinner.setSelection(1);
+            }
+        }
     }
 
     public void addPersonButtonClick(View view) {
@@ -47,26 +86,34 @@ public class NewTaskActivity extends AppCompatActivity {
         int month = datePicker.getMonth();
         int year = datePicker.getYear();
 
-        TextView genderText = findViewById(R.id.genderView);
+        Spinner genderSpinner = findViewById(R.id.genderSpinner);
         boolean gender = false;
 
-        if (genderText.getText() == "чоловік") {
+        if (genderList.get(genderSpinner.getSelectedItemPosition()) == "Чоловік") {
             gender = true;
         }
 
         Person person = new Person(name, surName, new GregorianCalendar(year, month, day), gender);
+
+        if(per != null)
+            person.setId(per.getId());
 
         if(imagePath != null)
             person.setImageName(imagePath);
 
         DatabaseAdapter databaseAdapter = new DatabaseAdapter(this);
         databaseAdapter.open();
-        databaseAdapter.insert(person);
+        Bundle arguments = getIntent().getExtras();
+        if(arguments != null)
+            databaseAdapter.update(person);
+        else {
+            databaseAdapter.insert(person);
+        }
         databaseAdapter.close();
 
         Intent intent = new Intent(this, MainActivity.class);
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         startActivity(intent);
     }
@@ -141,7 +188,7 @@ public class NewTaskActivity extends AppCompatActivity {
     public void cancelButtonClick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
 
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         startActivity(intent);
     }

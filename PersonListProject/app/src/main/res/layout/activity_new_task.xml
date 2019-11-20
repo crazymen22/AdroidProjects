@@ -54,13 +54,12 @@
                 android:layout_width="70dp"
                 android:layout_height="50dp" />
 
-            <TextView
-                android:id="@+id/genderView"
+            <Spinner
+                android:id="@+id/genderSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Стать"
-                android:textSize="25dp"
-                android:gravity="center"/>
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp" />
         </LinearLayout>
 
         <TextView

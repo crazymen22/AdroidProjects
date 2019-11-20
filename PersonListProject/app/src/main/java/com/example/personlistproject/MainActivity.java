@@ -118,6 +118,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void editButtonClick(View view) {
+        Intent intent = new Intent(this, NewTaskActivity.class);
+
+        Person p = persons.get(selectPosition);
+
+        intent.putExtra(Person.class.getSimpleName(), p);
+
+        startActivity(intent);
     }
 
     public void deleteButtonClick(View view) {

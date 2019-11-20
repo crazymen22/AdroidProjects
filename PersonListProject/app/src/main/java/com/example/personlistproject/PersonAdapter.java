@@ -51,13 +51,14 @@ public class PersonAdapter extends ArrayAdapter<Person> {
         dateView.setText(strDate);
 
         if (person.getImageName() != null) {
+            FileInputStream fin = null;
             try {
                 Bitmap bitmap = null;
-                File f = new File(person.getImageName());
+                fin = getContext().openFileInput(person.getImageName());
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 
-                bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+                bitmap = BitmapFactory.decodeStream(fin, null, options);
                 imageView.setImageBitmap(bitmap);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -62,6 +63,12 @@ public class NewTaskActivity extends AppCompatActivity {
         databaseAdapter.open();
         databaseAdapter.insert(person);
         databaseAdapter.close();
+
+        Intent intent = new Intent(this, MainActivity.class);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        startActivity(intent);
     }
 
     public void showImageSelectDialog(View view) {
@@ -102,10 +109,40 @@ public class NewTaskActivity extends AppCompatActivity {
             }
             case 1: {
                 Uri selectedImage = imageReturnedIntent.getData();
-                imagePath = selectedImage.getPath();
-                imageView.setImageURI(selectedImage);
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+                    String fileName = "IMAGE" + timeStamp + ".png";
+
+                    FileOutputStream fOut = null;
+                    try {
+                        fOut = openFileOutput(fileName, MODE_PRIVATE);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                        fOut.flush();
+                        fOut.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    imagePath = fileName;
+                    imageView.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
         }
+    }
+
+    public void cancelButtonClick(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        startActivity(intent);
     }
 }

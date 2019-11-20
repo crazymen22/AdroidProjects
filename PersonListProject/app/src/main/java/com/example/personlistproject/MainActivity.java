@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private List<Person> persons = new ArrayList();
     private DatabaseAdapter databaseAdapter;
 
+    private View lastSelectedView = null;
+    private int selectPosition;
+
     ListView personsList;
 
     @Override
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         databaseAdapter = new DatabaseAdapter(this);
 
         setInitialData();
+
         personsList = findViewById(R.id.countriesList);
         PersonAdapter stateAdapter = new PersonAdapter(this, R.layout.list_item, persons);
         personsList.setAdapter(stateAdapter);
@@ -54,11 +59,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 PersonAdapter stateAdapter = (PersonAdapter) personsList.getAdapter();
-                stateAdapter.remove(persons.get(position));
+
+                clearSelection();
+                lastSelectedView = v;
+                selectPosition = position;
+                v.setBackgroundResource(R.color.colorPrimeryLight);
+//                stateAdapter.remove(persons.get(position));
             }
         };
 
         personsList.setOnItemClickListener(itemListener);
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void clearSelection()
+    {
+        if(lastSelectedView != null)
+            lastSelectedView.setBackgroundColor(android.R.color.transparent);
     }
 
     @Override
@@ -80,14 +97,7 @@ public class MainActivity extends AppCompatActivity {
         PersonAdapter stateAdapter = new PersonAdapter(this, R.layout.list_item, persons);
         personsList.setAdapter(stateAdapter);
 
-        AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                PersonAdapter stateAdapter = (PersonAdapter) personsList.getAdapter();
-                stateAdapter.remove(persons.get(position));
-            }
-        };
-        personsList.setOnItemClickListener(itemListener);
+        initEvents();
     }
 
     private void setInitialData(){
@@ -111,6 +121,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void deleteButtonClick(View view) {
+        PersonAdapter stateAdapter = (PersonAdapter) personsList.getAdapter();
+
+        Person p = persons.get(selectPosition);
+
+        DatabaseAdapter databaseAdapter = new DatabaseAdapter(this);
+        databaseAdapter.open();
+        databaseAdapter.delete(p.getId());
+        databaseAdapter.close();
+
+        stateAdapter.remove(p);
     }
 
     @Override

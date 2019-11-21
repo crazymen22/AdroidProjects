@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Сайт:"
+        android:textSize="23dp" />
+
+    <Spinner
+        android:id="@+id/siteList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rowCount="3"
+        android:columnCount="2"
+        android:paddingStart="100dp"
+        android:paddingEnd="100dp">
+        <TextView
+            android:text="USD"
+            android:textSize="20dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/usdView"
+            android:textSize="20dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:text="EUR"
+            android:textSize="20dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/eurView"
+            android:textSize="20dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:text="PLN"
+            android:textSize="20dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/plnView"
+            android:textSize="20dp"
+            android:layout_gravity="center"/>
+    </GridLayout>
+
+    <Button
+        android:onClick="loadCurrencyButtonClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Load"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Сума:"
+        android:textSize="23dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"/>
+    </LinearLayout>
+
+</LinearLayout>
